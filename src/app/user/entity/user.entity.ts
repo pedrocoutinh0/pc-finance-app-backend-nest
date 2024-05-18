@@ -1,7 +1,7 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -21,12 +21,20 @@ export class UserEntity {
   @Column({ type: 'varchar', nullable: false })
   password: string;
 
+  @Column({ type: 'boolean', nullable: false, default: false })
+  activeUser: boolean;
+
+  @Column({ nullable: true })
+  verifyEmail: number;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: string;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
-  deletedAt: string;
+  @BeforeInsert()
+  generateVerifyEmail(): void {
+    this.verifyEmail = Math.floor(1000 + Math.random() * 9000);
+  }
 }

@@ -5,6 +5,8 @@ export class UserDto {
 
   email: string;
 
+  verifyEmail: number;
+
   createdAt: string;
 
   updatedAt: string;

@@ -6,7 +6,4 @@ export class RegisterUserDto {
 
   @IsNotEmpty()
   email: string;
-
-  @IsNotEmpty()
-  password: string;
 }

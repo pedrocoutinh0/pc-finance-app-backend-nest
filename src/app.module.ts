@@ -1,13 +1,18 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './app/user/user.module';
 import { AuthModule } from './app/auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './app/auth/auth.guard';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { EmailModule } from './app/email/email.module';
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
+import { UserService } from './app/user/user.service';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -22,8 +27,22 @@ import { AuthGuard } from './app/auth/auth.guard';
         synchronize: true,
       }),
     }),
+    MailerModule.forRoot({
+      transport: process.env.SMTP_TRANSPORT,
+      defaults: {
+        from: '"noreply" <modules@nestjs.com>',
+      },
+      template: {
+        dir: __dirname + '/templates',
+        adapter: new PugAdapter(),
+        options: {
+          strict: true,
+        },
+      },
+    }),
     UserModule,
     AuthModule,
+    EmailModule,
   ],
   controllers: [],
   providers: [
@@ -33,4 +52,10 @@ import { AuthGuard } from './app/auth/auth.guard';
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(private readonly userService: UserService) {}
+
+  async onModuleInit() {
+    await this.userService.initializeInitialUser();
+  }
+}
