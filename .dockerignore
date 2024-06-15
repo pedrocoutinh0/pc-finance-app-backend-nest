@@ -1,0 +1,8 @@
+node_modules
+dist
+.gitlab
+.husky
+.OLD
+.assets
+junit.xml
+.docker

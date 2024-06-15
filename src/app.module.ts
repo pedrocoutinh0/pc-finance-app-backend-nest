@@ -18,7 +18,7 @@ import { UserService } from './app/user/user.service';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'mariadb',
-        host: configService.get('DB_HOST', 'localhost'),
+        host: configService.get('DB_HOST', 'database'),
         port: Number(configService.get('DB_PORT', 3306)),
         username: configService.get('DB_USERNAME', 'root'),
         password: configService.get('DB_PASSWORD', '123'),
