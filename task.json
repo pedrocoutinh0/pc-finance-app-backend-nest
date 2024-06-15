@@ -1,49 +1,35 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:sa-east-1:637423183643:task-definition/my-nestjs-app:1",
+    "family": "finance-app",
+    "taskRoleArn": "",
+    "executionRoleArn": "arn:aws:iam::637423183643:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
     "containerDefinitions": [
         {
-            "name": "nestjs",
-            "image": "my_webapp_image:latest",
-            "cpu": 256,
-            "memory": 512,
+            "name": "finance-ap",
+            "image": "finace-app",
             "portMappings": [
                 {
                     "containerPort": 3000,
                     "hostPort": 3000,
-                    "protocol": "tcp"
+                    "protocol": "tcp",
+                    "name": "finance-ap-3000-tcp",
+                    "appProtocol": "http",
+                    "containerPortRange": ""
                 }
-            ],
-            "essential": true,
-            "environment": [],
-            "mountPoints": [],
-            "volumesFrom": [],
-            "systemControls": []
+            ]
         }
-    ],
-    "family": "my-nestjs-app",
-    "networkMode": "awsvpc",
-    "revision": 1,
-    "volumes": [],
-    "status": "ACTIVE",
-    "requiresAttributes": [
-        {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
-        },
-        {
-            "name": "ecs.capability.task-eni"
-        }
-    ],
-    "placementConstraints": [],
-    "compatibilities": [
-        "EC2",
-        "FARGATE"
     ],
     "requiresCompatibilities": [
         "FARGATE"
     ],
-    "cpu": "256",
-    "memory": "512",
-    "registeredAt": "2024-06-15T02:45:12.574Z",
-    "registeredBy": "arn:aws:iam::637423183643:root",
-    "tags": []
+    "cpu": "512",
+    "memory": "1024",
+    "tags": [],
+    "pidMode": "host",
+    "ipcMode": "host",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "taskDefinitionArn": "arn:aws:ecs:sa-east-1:637423183643:task-definition/finance-app:1"
 }
