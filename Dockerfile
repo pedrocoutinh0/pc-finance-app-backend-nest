@@ -11,6 +11,5 @@ COPY . .
 RUN yarn build
 
 EXPOSE 3000
-EXPOSE 3306
 
 CMD yarn start:prod
