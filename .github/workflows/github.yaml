@@ -20,7 +20,7 @@ permissions:
 jobs:
   deploy:
     name: Deploy
-    runs-on: ubuntu-latests
+    runs-on: ubuntu-latest
     environment: production
 
     steps:
