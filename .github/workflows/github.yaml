@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION: sa-east-1                   # set this to your preferred AWS region, e.g. us-west-
-  ECR_REPOSITORY: finance-app           # set this to your Amazon ECR repository name
+  ECR_REPOSITORY: finance-app          # set this to your Amazon ECR repository name
   ECS_SERVICE: service-finance-back               # set this to your Amazon ECS service name
   ECS_CLUSTER: finance-cluster            # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: task-finance-backend # set this to the path to your Amazon ECS task definition
@@ -35,13 +35,13 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
 
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-
     - name: Get task definition
       id: task-definition
       run: aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION }} --query taskDefinition > task-definition.json
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
